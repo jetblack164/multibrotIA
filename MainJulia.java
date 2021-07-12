@@ -11,12 +11,12 @@ public class MainJulia {
     //Global Variable Declaration
 
     public static int maxIter = 1000;
-    public static int sizex = 200;
-    public static int sizey =200;
-    public static double powerOfImaj = 0.5;
-    public static double jreal=-0.8;
-    public static double  jimaj=0.156;
-    public static double gamma = 0.2;
+    public static int sizex = 1000;
+    public static int sizey =1000;
+    public static double powerOfImaj = 1;
+    public static double jreal= 0;//-0.8;
+    public static double  jimaj=0;//0.156;
+    public static double gamma = 0.7;
     //Complex Number Functions
 
     public static double[] complexMultiply(double real, double imaj, double power) {
@@ -53,7 +53,7 @@ public class MainJulia {
 
     //Iteration Function. Does most of the hard work
     public static int iterCalculation(double x, double y) {
-       // System.out.println("NEW CALC");
+        //System.out.println("NEW CALC");
         double real = 0;
         double imaj = 0;
         double powRes[];
@@ -62,24 +62,24 @@ public class MainJulia {
         int iter = 0;
         double escapeVal = 4;
         while (  (iter < MainJulia.maxIter)){ //(Math.pow(Math.pow(real, 2) + Math.pow(imaj, 2), (0.5)) < escapeVal) &       while ( (Math.pow(Math.pow(real, 2) + Math.pow(imaj, 2), (0.5)) < escapeVal) & (iter < MainJulia.maxIter))
-
-            creal=(real*real+imaj*imaj)^(powerOfImaj*0.25/2)*Math.cos(powerOfImaj*0.25*Math.atan2(y,x)) + x;
-            imaj=(x*x+y*y)^(powerOfImaj*0.25*/2)*Math.sin(powerOfImaj*0.25*Math.atan2(y,x)) + y;
-            real=creal;
-
             /*
+            creal=(real*real+imaj*imaj)^(powerOfImaj*0.25/2)*Math.cos(powerOfImaj*0.25*Math.atan2(y,x)) + x;
+            imaj=(x*x+y*y)^(powerOfImaj*0.25/2)*Math.sin(powerOfImaj*0.25*Math.atan2(y,x)) + y;
+            real=creal;
+            */
+
             //System.out.println("Magnitude"+(Math.pow(Math.pow(real, 2) + Math.pow(imaj, 2), (0.5))));
             powRes = complexMultiply(real, imaj, MainJulia.powerOfImaj);
             real = powRes[0] + creal;
             imaj = powRes[1] + cimaj;
 
-            iter += 1;*/
+            iter += 1;
 
            // if (Math.pow(Math.pow(real, 2) + Math.pow(imaj, 2), (0.5)) > escapeVal)
             double Magni=(real*real+imaj*imaj);
             if ( Magni>= escapeVal)
             {
-                System.out.println((Magni));
+
                 break;
 
             }
@@ -114,15 +114,15 @@ public class MainJulia {
 
                     //rgb = new Color(255, 255, 255).getRGB();
                     //Defines RBG colour
-                    int rgbColour[]= ColourFinder(iterations,0,0);
+                    int rgbColour[]= ColourFinder(iterations,iterations,iterations);
 
                     //Sets RGB colour to Picture Array
 
                     //rgb= new Color(rgbColour[0],rgbColour[1],rgbColour[2]).getRGB();
-                    rgb = new Color(
-                            (int)(Math.pow(((double) iterations / (double) MainJulia.maxIter),MainJulia.gamma)   * 255),
-                            0 ,
-                            0
+                    rgb = new Color(255,255,255
+                            /*(int)(Math.pow(((double) iterations / (double) MainJulia.maxIter),MainJulia.gamma)   * 255),
+                            (int)(Math.pow(((double) iterations / (double) MainJulia.maxIter),MainJulia.gamma)   * 255) ,
+                            (int)(Math.pow(((double) iterations / (double) MainJulia.maxIter),MainJulia.gamma)   * 255)*/
                     ).getRGB();
                 }
                 // System.out.println("iterations:" + (int)(((float)iterations/(float)Main.maxIter)*255));
@@ -202,8 +202,8 @@ public class MainJulia {
     public static void MandelCalc(int StartIter,int EndIter) {
         int MandelPower=0;
         for (int ImageCount= StartIter;ImageCount < (EndIter+1); ++ImageCount) {
-
-            MainJulia.powerOfImaj=ImageCount*0.1;
+            System.out.println("Starting a new Image");
+            MainJulia.powerOfImaj=ImageCount*1;
 
             //how far are we zoomed in?
             double currentZoom = 1;
@@ -229,7 +229,7 @@ public class MainJulia {
             double yPerPixel = (2 * maxY * currentZoom) / sizey;
             int results[][] = new int[sizex][sizey];
 
-
+            System.out.println("Calculating");
             for (int counterY = 0; counterY < sizey; ++counterY) {
                 for (int counterX = 0; counterX < sizex; ++counterX) {
                     currX = (counterX * xPerPixel) - maxX;
@@ -242,6 +242,7 @@ public class MainJulia {
 
                 }
             }
+            System.out.println("creatingImage");
             imageCreation(results, ImageCount);
         }
     }
@@ -270,7 +271,7 @@ public class MainJulia {
 
     public static void main(String[] args) {
 
-MandelCalc(2,20 );
+        MandelCalc(0,5 );
       /*  while(true) {
             Scanner sc = new Scanner(System.in);
             System.out.println("Give Real");
